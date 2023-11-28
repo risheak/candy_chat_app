@@ -3,4 +3,8 @@ class Profile < ApplicationRecord
   enum category: { anime: 0, realistic: 1 }
 
   has_many :messages
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["category", "gender"]
+  end
 end

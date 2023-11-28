@@ -18,7 +18,7 @@ class ChatsController < ApplicationController
       name1: 'Risheak',
       name2: @profile.name,
       greeting: 'Hello!',
-      context: 'Friendly AI',
+      context: "Friendly AI, witty, #{@profile.gender}, #{@profile.category}",
       character: 'Example'
     }
 

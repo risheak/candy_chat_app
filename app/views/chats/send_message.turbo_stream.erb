@@ -1,0 +1,6 @@
+<%= turbo_stream.append "#{dom_id(@profile)}_messages" do %>
+  <%= render partial: "messages/message", locals: { message: @profile.messages.last }, scroll_to: true %>
+<% end %>
+<%= turbo_stream.replace "#{dom_id(@profile)}_message_form" do %>
+  <%= render partial: "messages/form", locals: { profile: @profile } %>
+<% end %>

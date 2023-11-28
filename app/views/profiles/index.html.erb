@@ -2,22 +2,39 @@
 
 <%= search_form_for @q do |f| %>
   <div>
-    <%= f.label :gender_cont, 'Gender' %>
-    <%= f.select :gender_eq,  Profile.genders.to_a.map { |w| [w[0], w[1]] }, {:include_blank => true} %>
+    <%= f.label :gender_eq, 'Gender' %>
+    <%= f.select :gender_eq, Profile.genders.to_a.map { |w| [w[0], w[1]] }, { include_blank: true } %>
   </div>
   <div>
-    <%= f.label :category_cont, 'Category' %>
-    <%= f.select :category_eq,  Profile.categories.to_a.map { |w| [w[0], w[1]] }, {:include_blank => true} %>
+    <%= f.label :category_eq, 'Category' %>
+    <%= f.select :category_eq, Profile.categories.to_a.map { |w| [w[0], w[1]] }, { include_blank: true } %>
   </div>
   <div>
     <%= f.submit 'Filter' %>
   </div>
 <% end %>
 
-<% @profiles.each do |profile| %>
-  <div>
-    <%= link_to "Start Chat with #{profile.name}", profile_chats_path(profile_id: profile.id) %>
-  </div>
-<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Category</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @profiles.each do |profile| %>
+      <tr>
+        <td><%= profile.name %></td>
+        <td><%= profile.gender %></td>
+        <td><%= profile.category %></td>
+        <td>
+          <%= link_to "Start Chat", profile_chats_path(profile_id: profile.id), class: 'btn btn-primary' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= paginate @profiles %>

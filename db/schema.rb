@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_28_144055) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_28_171302) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -31,6 +31,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_28_144055) do
     t.integer "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_profiles_on_category"
+    t.index ["gender", "category"], name: "index_profiles_on_gender_and_category"
   end
 
   create_table "servers", force: :cascade do |t|

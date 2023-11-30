@@ -1,18 +1,16 @@
 class LoadBalanceService
 
+  SERVERS = Server.pluck(:url).freeze
+
   class << self
     def next_server_url
       servers = get_servers
       server = Rails.cache.fetch('load_balancer_cache') { 0 }
       update_cache
-      servers[server]
+      SERVERS[server]
     end
 
     private
-
-    def get_servers
-      Server.pluck(:url)
-    end
 
     def update_cache
       cache = Rails.cache.read('load_balancer_cache')

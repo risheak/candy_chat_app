@@ -8,6 +8,8 @@ class LoadBalanceService
       servers[server]
     end
 
+    private
+
     def get_servers
       Server.pluck(:url)
     end

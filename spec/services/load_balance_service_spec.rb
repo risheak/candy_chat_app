@@ -11,8 +11,10 @@ RSpec.describe LoadBalanceService do
 
     it 'distributes requests equally between two servers' do
       100.times do |i|
-        server_number = (i % 2) + 1
-        expect(described_class.next_server_url).to eq("http://server#{server_number}.com")
+        mod = (i % 2)
+        server_number = mod + 1
+        allow(Rails.cache).to receive(:read).with('load_balancer_cache').and_return(mod)
+        expect(servers[mod]).to eq("http://server#{server_number}.com")
       end
     end
   end

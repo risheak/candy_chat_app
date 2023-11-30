@@ -10,7 +10,6 @@ class ChatsController < ApplicationController
     ChatApiWorker.perform_async(@profile.id, params[:body])
     respond_to do |format|
       format.turbo_stream
-      format.html { render 'index' }
     end
   end
 

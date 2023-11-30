@@ -24,7 +24,6 @@ class ChatApiService
 
   def self.send_message(message, profile_id)
     profile = Profile.find_by(id: profile_id)
-    byebug
     moderation_result = MessageFilterService.call message
     if moderation_result
       params = build_message_params(moderation_result, profile)

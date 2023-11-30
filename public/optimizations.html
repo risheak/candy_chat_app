@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmark Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th, td {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .improvement {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>Benchmark Results Without Index Optimization</h2>
+  <table>
+    <tr>
+      <th>Search Query</th>
+      <th>Label</th>
+      <th>Time (seconds)</th>
+    </tr>
+    <tr>
+      <td>Search by Gender (Male)</td>
+      <td>{:gender_eq=&gt;"male"}</td>
+      <td>19.399</td>
+    </tr>
+    <tr>
+      <td>Search by Gender (Female)</td>
+      <td>{:gender_eq=&gt;"female"}</td>
+      <td>19.680</td>
+    </tr>
+    <tr>
+      <td>Search by Gender (Male) and Category (Realistic)</td>
+      <td>{:gender_eq=&gt;"male", :category_eq=&gt;"realistic"}</td>
+      <td>10.364</td>
+    </tr>
+    <tr>
+      <td>Search by Category (Anime)</td>
+      <td>{:category_eq=&gt;"anime"}</td>
+      <td>19.740</td>
+    </tr>
+  </table>
+
+  <h2>Benchmark Results With Index Optimization</h2>
+  <table>
+    <tr>
+      <th>Search Query</th>
+      <th>Label</th>
+      <th>Time (seconds)</th>
+    </tr>
+    <tr>
+      <td>Search by Gender (Male)</td>
+      <td>{:gender_eq=&gt;"male"}</td>
+      <td>18.101</td>
+    </tr>
+    <tr>
+      <td>Search by Gender (Female)</td>
+      <td>{:gender_eq=&gt;"female"}</td>
+      <td>18.357</td>
+    </tr>
+    <tr>
+      <td>Search by Gender (Male) and Category (Realistic)</td>
+      <td>{:gender_eq=&gt;"male", :category_eq=&gt;"realistic"}</td>
+      <td>9.337</td>
+    </tr>
+    <tr>
+      <td>Search by Category (Anime)</td>
+      <td>{:category_eq=&gt;"anime"}</td>
+      <td>18.477</td>
+    </tr>
+  </table>
+
+  <h2>Percentage Improvement</h2>
+  <p>On average, there is around <span class="improvement">5-8%</span> improvement with indices in a 100,000 records table.</p>
+</body>
+</html>

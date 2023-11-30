@@ -9,36 +9,31 @@ class ChatApiService
     servers[server]
   end
 
-  def self.build_messages_history(profile)
-    messages_history = {
-      'internal' => [],
-      'visible' => []
-    }
-    previous_message = ""
-    profile.messages.where(archived: [false, nil]).order(:created_at).each_with_index do |message, index|
-      if message.sent_by == "profile"
-        if index == 0
-          messages_history['internal'] << ["<|BEGIN-VISIBLE-CHAT|>", message.body] if index == 0
-          messages_history['visible'] << ["", message.body]
+  def self.build_message_history(payload, profile)
+      previous_message = ""
+      profile.messages.order(:created_at).each_with_index do |message, index|
+        if message.sent_by == "profile"
+        # If it's the first message from the assistant, we add the LLM format required
+          if index == 0
+            payload["history"]["internal"] << ["<|BEGIN-VISIBLE-CHAT|>", message.body] if index == 0
+            payload["history"]["visible"] << ["", message.body]
+            else
+              payload["history"]["internal"] << [previous_message, message.body]
+              payload["history"]["visible"] << [previous_message, message.body]
+            end
+
+           previous_message = ""
         else
-          messages_history['internal'] << [previous_message, message.body]
-          messages_history['visible'] << [previous_message, message.body]
+          previous_message = message.body
         end
-
-        previous_message = ""
-      else
-        previous_message = message.body
       end
+      payload
     end
-
-    messages_history
-  end
 
   def self.send_message(params, profile)
     params = JSON.parse params
-    body = params.merge({
-      'history' => build_messages_history(profile)
-    })
+    params.merge!(DEFAULT_CHARACTER)
+    body = build_message_history(params, profile)
     response = HTTParty.post(next_server_url, body: body.to_json, headers: { 'Content-Type' => 'application/json' })
     if response.success?
       # Save the response as a message with the role 'Profile'

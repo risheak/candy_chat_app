@@ -5,7 +5,7 @@ class LoadBalanceService
       servers = get_servers
       server = Rails.cache.fetch('load_balancer_cache') { 0 }
       update_cache
-      SERVERS[server]
+      servers[server]
     end
 
     def get_servers

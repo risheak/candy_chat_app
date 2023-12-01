@@ -7,9 +7,9 @@ class ChatApiService
     if moderation_result
       params = build_message_params(moderation_result, profile)
       params.merge!(DEFAULT_CHARACTER)
-      body = build_message_history(params, profile)
+      params = build_message_history(params, profile)
       next_server_url = LoadBalanceService.next_server_url
-      response = HTTParty.post(next_server_url, body: body.to_json, headers: { 'Content-Type' => 'application/json' })
+      response = HTTParty.post(next_server_url, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
       if response.success?
         # Save the response as a message with the role 'Profile'
         res = JSON.parse response.body

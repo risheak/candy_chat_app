@@ -18,7 +18,6 @@ class ChatApiService
       else
         # Handle the failure scenario
       end
-      response
     else
       profile.messages.create(body: 'Sorry, I can not process this', sent_by: 'profile', archived: false)
     end
